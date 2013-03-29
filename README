@@ -1,2 +1,13 @@
-This directory contains misc python scripts that I think will be useful outside
-of the original project they were written for.
+This directory contains misc python scripts that I think will be useful outside of the original project they were written for.
+
+I'm making these available in the hopes that someone else might save themselves a little time and effort however they are provided AS IS and are NOT THOROUGHLY TESTED.  If you do decide to use any of the scripts assume that they have bugs and sanity check the output!
+
+Roughly 8 categories of utilities:
+  seq_utils - general utilities for manipulating, filtering, trimming, sorting, renaming sequence files, aligned and unaligned...most of the names are sort self explaintory, all have usage when run with no args
+  seq_stats - compute some statistics for sequence files
+  kmer - some kmer related tools
+  entrez_eutils - utilities for automated fetching of data from ncbi eutilities
+  hmmer3 - utilities for manipulating files hmmer3 generates
+  misc - exactly that
+  sandbox - might be something useful to you in there, almost certainly not usable without modifying the source
+  plotting - uh...plotting?
