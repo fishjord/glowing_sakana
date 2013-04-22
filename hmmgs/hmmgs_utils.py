@@ -37,7 +37,7 @@ def read_kmer_starts(fname):
     header = stream.readline().strip()
     if header[0] != '#':
         raise IOError("Malformed header line in file %s: '%s'" % (fname, header))
-    header = header[1:].replace(" (s)", "").replace(" ", "_").split("\t")
+    header = header[1:].replace(" (s)", "").replace("?", "").replace(" ", "_").split("\t")
 
     for line in stream:
         lexemes = line.strip().split()
