@@ -7,7 +7,7 @@ import sys
 def main(seq_file_name):
 	sys.stderr.write("Processing " +  seq_file_name + " writing good seqs to stdout\n")
 
-	good_seq_regex = re.compile("^[ACTUGactug\-\.]+$")
+	good_seq_regex = re.compile("^[ACTUGactug]+$")
 	seqs_read = 0
 	seqs_written = 0
 
@@ -16,6 +16,8 @@ def main(seq_file_name):
 		if good_seq_regex.match(str(seq.seq)):
 			print ">" + seq.id + "\n" + str(seq.seq) + "\n"
 			seqs_written = seqs_written + 1
+		else:
+			print >>sys.stderr, "%s" % seq.id
 
 	sys.stderr.write("Processing complete, read " + str( seqs_read) + " wrote " + str( seqs_written) + " sequences\n")
 
