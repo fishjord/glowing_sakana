@@ -9,7 +9,8 @@ import matplotlib.mlab as mlab
 from collections import namedtuple
 
 class hmmgs_line:
-    pass
+    def __getitem__(self, i):
+        return getattr(self, i)
 
 def plot_bits_ratio(hmmgs_lines, fname = None):
     lengths = [x.prot_length for x in hmmgs_lines]
@@ -62,6 +63,21 @@ def read_kmer_starts(fname):
 
         yield ret
 
+def read_hmmgs_header(fname):
+    stream = open(fname)
+    header = stream.readline().strip()
+    if header[0] != '#':
+        raise IOError("Malformed header line in file %s: '%s'" % (fname, header))
+    header = header[1:].replace(" (s)", "").replace(" ", "_").split("\t")
+
+    return header
+
+def write_hmmgs_header(stream, header):
+    stream.write("#{0}\n".format("\t".join(header)))
+
+def write_hmmgs_line(stream, headers, line):
+    stream.write("{0}\n".format("\t".join([str(line[header]) for header in headers])))
+
 def read_hmmgs_file(fname):
     stream = open(fname)
     header = stream.readline().strip()
@@ -92,7 +108,6 @@ def read_hmmgs_file(fname):
         yield ret
 
 def filter(hmmgs_lines, min_prot_length=0, max_prot_length=10000, min_bits_saved=-1000, max_bits_saved=10000, min_bits_ratio=0, max_bits_ratio=10000, direction=set(["left", "right"]), state_after=0, state_before=10000):
-    ret = []
     for l in hmmgs_lines:
         if l.prot_length < min_prot_length or l.prot_length > max_prot_length:
             continue
@@ -109,6 +124,6 @@ def filter(hmmgs_lines, min_prot_length=0, max_prot_length=10000, min_bits_saved
         if l.bits_ratio < min_bits_ratio or l.bits_ratio > max_bits_ratio:
             continue
 
-        ret.append(l)
 
-    return ret
+        yield l
+
