@@ -31,7 +31,7 @@ for line in open(primers_file):
     primer_seqfile = "primer_{0}.fasta".format(primer_name)
     primer_aligned_seqfile = "primer_{0}_aligned.fasta".format(primer_name)
     trimmed_seqfile = "trimmed_{0}".format(nucl_file)
-    logo_file = "primer_{0}.eps".format(primer_name)
+    logo_file = "primer_{0}.png".format(primer_name)
 
     cmd = ["java", "-cp", readseq_jar, "edu.msu.cme.rdp.readseq.utils.SequenceTrimmer", "-i", "--length", "{0}".format(len(search_primer) - max_errors), nucl_start, nucl_end, nucl_file]
     subprocess.check_call(cmd)
@@ -42,7 +42,7 @@ for line in open(primers_file):
 
     num_seqs = int(subprocess.check_output(["grep", "-c", ">", primer_seqfile]))
     shutil.move(trimmed_seqfile, primer_aligned_seqfile)
-    subprocess.check_call([weblogo, "--fin", primer_aligned_seqfile, "--fout", logo_file])
+    subprocess.check_call([weblogo, "--fin", primer_aligned_seqfile, "--fout", logo_file, "--format", "png"])
 
     cmd = ["java", "-jar", probematch_jar, search_primer, primer_seqfile, str(max_errors)]
     error_counts = {}
