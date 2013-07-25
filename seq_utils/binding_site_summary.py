@@ -54,6 +54,9 @@ for seq in SeqIO.parse(open(seqfile), "fasta"):
             if model_pos in binding_sites:
                 covered_sites.append(model_pos)
                 aas.append(b)
+                if b == "L" and model_pos == 186:
+                    print >>sys.stderr, ">{0}\n{1}".format(seq.id, seq.seq)
+
                 if b == binding_sites[model_pos]:
                     matching += 1
         elif b == "-":
