@@ -28,9 +28,10 @@ for line in open(primers_file):
     nucl_start = lexemes[3]
     nucl_end = lexemes[4]
 
+    nucl_name = os.path.split(nucl_file)[-1]
     primer_seqfile = "primer_{0}.fasta".format(primer_name)
     primer_aligned_seqfile = "primer_{0}_aligned.fasta".format(primer_name)
-    trimmed_seqfile = "trimmed_{0}".format(nucl_file)
+    trimmed_seqfile = "trimmed_{0}".format(nucl_name)
     logo_file = "primer_{0}.png".format(primer_name)
 
     cmd = ["java", "-cp", readseq_jar, "edu.msu.cme.rdp.readseq.utils.SequenceTrimmer", "-i", "--length", "{0}".format(len(search_primer) - max_errors), nucl_start, nucl_end, nucl_file]
