@@ -14,6 +14,8 @@ if len(sys.argv) == 3:
 i = 0
 for seq in SeqIO.parse(open(sys.argv[1]), "fasta"):
     seqid = seq.id
+    desc = seq.description.split(" ")
+    desc = " ".join(desc[1:])
 
     if append:
         seqid += "_%s" % append
@@ -21,4 +23,4 @@ for seq in SeqIO.parse(open(sys.argv[1]), "fasta"):
         seqid = "%s" % i
         i += 1
 
-    print ">%s\n%s" % (seqid, seq.seq)
+    print ">{0} {1}\n{2}".format(seqid, desc, seq.seq)

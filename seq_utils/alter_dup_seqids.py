@@ -10,6 +10,8 @@ if len(sys.argv) != 2:
 seen = set()
 for seq in SeqIO.parse(open(sys.argv[1]), "fasta"):
     seqid = seq.id
+    desc = seq.description.split(" ")
+    desc = " ".join(desc[1:])
     i = 0
 
     while seqid in seen:
@@ -18,4 +20,4 @@ for seq in SeqIO.parse(open(sys.argv[1]), "fasta"):
 
     seen.add(seqid)
 
-    print ">%s\n%s" % (seqid, seq.seq)
+    print ">{0} {1}\n{2}".format(seqid, desc, seq.seq)
