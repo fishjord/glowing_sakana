@@ -49,7 +49,7 @@ def main():
 
         median = numpy.median(coverage)
         mean = numpy.mean(coverage)
-        mapped_ratio = mapped_length / ref_length
+        mapped_ratio = mapped_length / float(ref_length)
 
         if median >= args.min_median and mean >= args.min_mean and mapped_ratio >= args.min_mapped and ref_length >= args.min_length:
             print "{0}\t{1}\t{2}\t{3}\t{4}".format(refid, median, mean, mapped_length, mapped_ratio)
