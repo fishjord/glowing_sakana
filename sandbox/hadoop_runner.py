@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 import os
 import subprocess
@@ -45,7 +45,7 @@ def main(seq_file, id_mapping, dist_cutoff, run_name, mask_seq):
 
 	print "Running sampling"
 	cmd = [hadoop_cmd, "jar", "-libjars", jarlibs, jobjar, "hadoop", "sample", dist_cutoff, "1", "10", hadoop_bin_seq_file, sample_dir]
-	subprocess.check_call(cmd, env={"HADOOP_HEAPSIZE" : "4000"})
+	subprocess.check_call(cmd, env={"HADOOP_HEAPSIZE" : "12000"})
 
 	print "Running distance matrix"
 	cmd = [hadoop_cmd, "jar", "-libjars", jarlibs, jobjar, "hadoop", "dmatrix", dist_cutoff, "1", sample_dir + "/part-00000", hadoop_bin_seq_file, matrix_dir, str(reducers), "true"]

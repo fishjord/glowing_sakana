@@ -1,7 +1,7 @@
 #trimms sequences from HMM aligned file
 # usage: seq_trimmer_model.py  -s 226 -e 336 -m 100  aligned.fasta sliced.fa
 
-#!/usr/bin/python
+#!/usr/bin/env python
 
 from Bio import SeqIO
 from optparse import OptionParser

@@ -53,4 +53,4 @@ if xlab:
     plt.xlabel(xlab)
     plt.ylabel(ylab)
 
-plt.savefig("%s_accumulation.png" % args.input_file)
+plt.savefig("%s_accumulation.eps" % args.input_file)

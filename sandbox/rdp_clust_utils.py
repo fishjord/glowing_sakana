@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 
 def read_id_mapping(stream, int_ids=False, inc=dict()):
