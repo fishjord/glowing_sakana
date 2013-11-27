@@ -111,6 +111,7 @@ def format_node(id, node_labels):
         label += " cov: {0:.2f}".format(labels["cov"])
         add_dot_kv("color", get_cov_color(labels["cov"]), attrs)
 
+    label = list(labels["kmers"])[0]
     add_dot_kv("label", label, attrs)
     return "\t{0} [{1}];".format(id, ",".join(attrs))
 
@@ -151,51 +152,6 @@ def main():
         kmer_cov = None
 
     in_edges, out_edges, node_labels, edge_labels = read_graph(args.input_reads, args.k, ref_kmers, kmer_cov)
-
-    iter = 0
-    while True:
-        print >>sys.stderr, "Iteration: {0}".format(iter)
-        iter += 1
-        merged_vertices = set()
-
-        for id in node_labels.keys():
-            if len(in_edges[id]) == 1 and len(out_edges[id]) == 1:
-                in_vertex = in_edges[id][0]
-                out_vertex = out_edges[id][0]
-                if len(node_labels[id]["refids"] - node_labels[in_vertex]["refids"]) != 0:
-                    continue
-
-                node_labels[in_vertex]["kmers"].update(node_labels[id]["kmers"])
-                #node_labels[in_vertex]["seqids"].update(node_labels[id]["seqids"])
-                #node_labels[in_vertex]["refids"].update(node_labels[id]["refids"])
-
-                del in_edges[id]
-                del out_edges[id]
-
-                if in_vertex != out_vertex:
-                    if out_vertex not in edge_labels[in_vertex]:
-                        edge_labels[in_vertex][out_vertex] = {}
-
-                    edge_labels[in_vertex][out_vertex]["collapsed"] = edge_labels[id][out_vertex]["collapsed"] + edge_labels[in_vertex][id]["collapsed"]
-                
-                    if kmer_cov != None:
-                        edge_labels[in_vertex][out_vertex]["cov"] = edge_labels[id][out_vertex]["cov"] + edge_labels[in_vertex][id]["cov"]
-
-
-                    out_edges[in_vertex][out_edges[in_vertex].index(id)] = out_vertex
-                    in_edges[out_vertex][in_edges[out_vertex].index(id)] = in_vertex
-
-                    out_edges[in_vertex] = list(set(out_edges[in_vertex]))
-                    in_edges[out_vertex] = list(set(in_edges[out_vertex]))
-
-                merged_vertices.add(id)
-
-        for merged_vertex in merged_vertices:
-            del node_labels[merged_vertex]
-            del edge_labels[merged_vertex]
-
-        if len(merged_vertices) == 0:
-            break
 
     print "digraph sg {"
     for id in out_edges.keys():
